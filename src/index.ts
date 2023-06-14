@@ -1,8 +1,11 @@
 import axios from 'axios';
 
-const token: string = "6005659200:AAFtTvmf6yc1DetLobvGfsHrO7MgEDAA6o0";
-const url: string = "https://api.telegram.org/bot"
-const method: string = "/getMe"
+import * as dotenv from 'dotenv';
+dotenv.config()
+
+const token: string = process.env.TOKEN;
+const url: string = "https://api.telegram.org/bot";
+const method: string = "/getMe";
 
 async function sendTo() {
   let pp: any;
@@ -15,3 +18,4 @@ async function sendTo() {
 }
 
 (async ()=>console.log(await sendTo()))();
+// guarda video https://www.youtube.com/watch?v=IlsygSzikOQ per togliere roba async
