@@ -29,6 +29,8 @@ app.listen(PORT, () => {
 //TODO: setta sempre il webhook con chiamata SetWebhook per essere sicuro?
 
 app.post('/webhook', async (req, res) => {
+  //TODO: da aggiungere il token nell'endpoint (/webhook/<TOKEN>) per renderlo unico,
+  // così chi non conosce il token non può chiamare l'api
   console.log(req.body);
   
   const chatId = req.body.message.chat.id;
