@@ -4,15 +4,25 @@ dotenv.config()
 import axios from 'axios';
 import express from 'express';
 
-const TOKEN: string = process.env.TOKEN;
+const TOKEN = process.env.TOKEN;
+const PORT: number = parseInt(process.env.PORT) || 3000;
 const URL =  "https://api.telegram.org/bot";
 const URL_TOKEN = `${URL}${TOKEN}`;
 
 const app = express();
 app.use(express.json());  //TODO: da capire
 
-app.listen(3000, () => {
-  console.log('Example app listening to port 3000 !!!');
+//TODO: e se impostassi il codice come classe??
+
+function init() {
+  if (!TOKEN) {
+    throw new Error('No bot TOKEN is provided.');
+  }
+}
+
+app.listen(PORT, () => {
+  init();
+  console.log(`Example app listening to port ${PORT} !!!`);
 })
 
 // TODO: magari con npm script puoi anche lanciare il collegamento a ngrok
