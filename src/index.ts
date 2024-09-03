@@ -3,19 +3,20 @@ dotenv.config()
 
 import axios from 'axios';
 import express from 'express';
-// import bodyParser from 'body-parser';
 
 const TOKEN: string = process.env.TOKEN;
 const URL =  "https://api.telegram.org/bot";
 const URL_TOKEN = `${URL}${TOKEN}`;
 
 const app = express();
-app.use(express.json());  // FON-DA-MEN-TA-LE  //TODO: da capire
-//TODO: //app.use(bodyParser.json());
+app.use(express.json());  //TODO: da capire
 
 app.listen(3000, () => {
   console.log('Example app listening to port 3000 !!!');
 })
+
+// TODO: magari con npm script puoi anche lanciare il collegamento a ngrok
+//TODO: setta sempre il webhook con chiamata SetWebhook per essere sicuro?
 
 app.post('/webhook', async (req, res) => {
   console.log(req.body);
@@ -30,20 +31,5 @@ app.post('/webhook', async (req, res) => {
   return res.send();
 });
 
-// TODO: git config
-// TODO:set commands
-// TODO:cloudfare workers
-
-// async function sendTo() {
-//   let res: any;
-//   try {
-//     res = await axios.get(`${URL}${TOKEN}${method}`);
-//     // res = await axios.get('https://jsonplaceholder.typicode.com/todos/3');
-//   } catch (error) {
-//     console.error(error);
-//   }
-//   return res.data; 
-// }
-
-// (async ()=>console.log(await sendTo()))();
-// guarda video https://www.youtube.com/watch?v=IlsygSzikOQ per togliere roba async
+// TODO:set commands con api telegram: non so se ci è utile
+// TODO:cloudfare workers? O container Docker su AWS?
