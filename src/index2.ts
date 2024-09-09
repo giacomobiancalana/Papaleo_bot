@@ -1,6 +1,7 @@
 import * as dotenv from 'dotenv';
 dotenv.config()
-//TODO: Facciamolo senza pacchetti npm (per cloudfare workers)
+//TODO: facciamolo senza pacchetti npm (per cloudfare workers).
+//TODO: poi proviamo con Wrangler CLI e pacchetti npm.
 import axios from 'axios';
 import express from 'express';
 
