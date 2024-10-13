@@ -26,8 +26,10 @@ async function init() {
     throw new Error('No bot TOKEN is provided.');
   };
   const url = `${DOMAIN}/webhook`;
-  const response = await axios.get(`${URL_TOKEN}/setwebhook?url=${url}&secret_token=${SECRET_TOKEN}`);
-  console.log("Webhook info:\n", response.data);
+  const setWebhookInfo = await axios.get(`${URL_TOKEN}/setwebhook?url=${url}&secret_token=${SECRET_TOKEN}`);
+  console.log("##########\nSetwebhook info:\n", setWebhookInfo.data, "\n##########");
+  const getWebhookInfo = await axios.get(`${URL_TOKEN}/getwebhookinfo`);
+  console.log("Getwebhookinfo for more information (pending updates for example):\n", getWebhookInfo.data, "\n##########");
 }
 
 app.listen(PORT, async () => {
@@ -100,4 +102,5 @@ app.post('/webhook', async (req, res) => {
 //TODO: set commands con api telegram: non so se ci è utile
 //TODO: prendere server -> così non devo usare ngrok
 //TODO: su container Docker? su AWS?
+//TODO: docker-compose per ngrok (e bot)
 //TODO: facciamolo senza pacchetti npm (per cloudfare workers). E poi proviamo con Wrangler CLI e pacchetti npm.
