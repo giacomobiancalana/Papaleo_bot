@@ -1,0 +1,41 @@
+# version: "3.7"
+
+services:
+  ngrok:
+    image: ngrok/ngrok:3
+    # versione giusta? sennò latest
+    command:
+      - "http"
+      - "http://host.docker.internal:3000"
+      - "--domain=porpoise-crisp-greatly.ngrok-free.app"
+    environment:
+      NGROK_AUTHTOKEN: 2lSp0hwPn8PrUnanVri6QoWFBLn_4GLB7BVdKX5rq7rDecfCV
+    ports:
+      - 4040:4040
+    # stdin_open: true # docker run -i
+    # tty: true        # docker run -t
+
+# Su Gnu/Linux hai --net=host, qui invece si usa host.docker.internal (per Windows e Mac OS)
+
+# docker run -it --name ngrok_runner \
+# -e NGROK_AUTHTOKEN=2lSp0hwPn8PrUnanVri6QoWFBLn_4GLB7BVdKX5rq7rDecfCV \
+# -p 4040:4040 ngrok/ngrok http --domain=porpoise-crisp-greatly.ngrok-free.app host.docker.internal:3000
+
+  # NGROK docker-compose di chatgpt
+  # ngrok_compose:
+  #     image: ngrok/ngrok:latest
+  #     container_name: ngrok_compose
+  #     environment:
+  #       - NGROK_AUTHTOKEN=your-ngrok-auth-token
+  #    #  - NGROK_REGION=eu
+  #       - NGROK_DOMAIN=example.com
+  #     ports:
+  #       - "4040:4040"  # ngrok dashboard
+  #     command: http 3000  # Esponi la porta 3000 tramite ngrok
+
+  # papaleo_bot:
+  #   image: papaleo_bot
+  #   container: papaleo_bot
+  #   restart: unless-stopped
+  
+# traefik e portainer ??
