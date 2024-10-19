@@ -6,7 +6,8 @@
   "mainTypescript": "index.ts",
   "scripts": {
     "dev": "nodemon --watch './**/*.ts' --exec 'ts-node' src/index.ts",
-    "ngrok:docker": "docker run -it --net=host --name ngrok_runner --restart unless-stopped -e NGROK_AUTHTOKEN=2lSp0hwPn8PrUnanVri6QoWFBLn_4GLB7BVdKX5rq7rDecfCV ngrok/ngrok:3 http --domain=porpoise-crisp-greatly.ngrok-free.app 3000",
+    "ngrok:docker:rm": "docker stop ngrok_runner && docker rm ngrok_runner && npm run ngrok:docker",
+    "ngrok:docker": "docker run -it --net=host --name ngrok_runner --restart unless-stopped --rm -e NGROK_AUTHTOKEN=2lSp0hwPn8PrUnanVri6QoWFBLn_4GLB7BVdKX5rq7rDecfCV ngrok/ngrok:3 http --domain=porpoise-crisp-greatly.ngrok-free.app 3000",
     "ngrok:local": "ngrok http --domain=porpoise-crisp-greatly.ngrok-free.app 3000",
     "start:dev": "tsc && nodemon dist/index.js",
     "start": "tsc && node dist/index.js",
