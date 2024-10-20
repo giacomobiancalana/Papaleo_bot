@@ -14,7 +14,6 @@ const URL_TOKEN = `${URL}${TOKEN}`;
 const EPOIDILLO_FILE_ID = process.env.EPOIDILLO_FILE_ID;
 const SGUARDI_FILE_ID = process.env.SGUARDI_FILE_ID;
 // const ASSETS_URL = `https://ilsitodiyoda2.altervista.org/assets/papaleo-gif`;
-//TODO: usa env.ts
 
 const app = express();
 app.use(express.json());  //TODO: da capire
@@ -25,6 +24,9 @@ async function init() {
   if (!TOKEN) {
     throw new Error('No bot TOKEN is provided.');
   };
+  //TODO: sarebbe da togliere tutti i token da github (ma tanto son privati)
+  //TODO: stampa dominio, porta, tutto, e altra roba che c'è anche sul .env ->
+  //TODO: -> basterebbe fare env.ts e stampare quello come su Traffic-Monitoring
   const url = `${DOMAIN}/webhook`;
   const setWebhookInfo = await axios.get(`${URL_TOKEN}/setwebhook?url=${url}&secret_token=${SECRET_TOKEN}`);
   console.log("##########\nSetwebhook info:\n", setWebhookInfo.data, "\n##########");
@@ -52,7 +54,9 @@ app.post('/webhook', async (req, res) => {
     return null;
   }
 
-  console.log('######### request body #########');  // req.headers per gli headers
+  console.log("########## request body, date:", new Date().toLocaleString("it-IT", { timeZone: 'Europe/Rome' }), "##########");  // req.headers per gli headers
+  //TODO: come si può avere una data senza istanziare un oggetto data, partendo da Date.now() ?
+  // console.log("########## request body, date:", Date.parse(`${Date.now()}`), "##########");
   console.log(util.inspect(req.body, { depth: null, colors: true }));
  
   const chatId = req.body.message.chat.id;
