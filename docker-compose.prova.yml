@@ -1,0 +1,82 @@
+version: "3.7"
+
+services:
+  ngrok_config:
+      image: ngrok/ngrok:3
+      container_name: ngrok_config_container
+      command:
+        - "start"
+        - "-all"
+        - "--config"
+        - "./ngrok.yml"
+      volumes:
+        - ./ngrok.yml:/app/ngrok.yml
+        # TODO: guarda dov'è la maggior parte del codice, mettilo lì
+      ports:
+        - 4041:4040
+
+  ngrok_prova:
+    image: wernight/ngrok
+    ports:
+      - "8081:8081" #just a diagnosis port
+    command:
+      - /bin/sh
+      - -c
+      - |
+        ngrok http --domain=porpoise-crisp-greatly.ngrok-free.app host.docker.internal:3000 -e NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
+      # - |
+      #   ngrok start --all
+    volumes:
+      # - .:/home/ngrok/.ngrok2/
+      - ./ngrok.yml:/etc/ngrok.yml
+    environment:
+      NGROK_AUTHTOKEN: "2lSp0hwPn8PrUnanVri6QoWFBLn_4GLB7BVdKX5rq7rDecfCV"
+
+  ngrok_initial:
+    image: ngrok/ngrok:3
+    container_name: ngrok_compose_container
+    command:
+      - "http"
+      - "--domain"
+      - "porpoise-crisp-greatly.ngrok-free.app"
+      - "host.docker.internal:3000"
+    restart: unless-stopped
+    environment:
+      NGROK_AUTHTOKEN: 2lSp0hwPn8PrUnanVri6QoWFBLn_4GLB7BVdKX5rq7rDecfCV
+    ports:
+      - 4040:4040
+    # stdin_open: true # docker run -i
+    # tty: true        # docker run -t
+
+  # Su Gnu/Linux hai --net=host, qui invece si usa host.docker.internal (per Windows e Mac OS)
+
+  # (per Windows e Mac OS)
+  # docker run -it --name ngrok_runner --restart unless-stopped \
+  # -e NGROK_AUTHTOKEN=2lSp0hwPn8PrUnanVri6QoWFBLn_4GLB7BVdKX5rq7rDecfCV \
+  # ngrok/ngrok:3 http --domain=porpoise-crisp-greatly.ngrok-free.app host.docker.internal:3000
+
+  # Linux
+  # docker run -it --net=host --name ngrok_runner --restart unless-stopped \
+  # -e NGROK_AUTHTOKEN=2lSp0hwPn8PrUnanVri6QoWFBLn_4GLB7BVdKX5rq7rDecfCV \
+  # ngrok/ngrok:3 http --domain=porpoise-crisp-greatly.ngrok-free.app 3000
+
+  # (o --domain=<DOMAIN>)
+
+    # NGROK docker-compose di chatgpt
+    # ngrok_compose:
+    #     image: ngrok/ngrok:latest
+    #     container_name: ngrok_compose
+    #     environment:
+    #       - NGROK_AUTHTOKEN=your-ngrok-auth-token
+    #    #  - NGROK_REGION=eu
+    #       - NGROK_DOMAIN=example.com
+    #     ports:
+    #       - "4040:4040"  # ngrok dashboard
+    #     command: http 3000  # Esponi la porta 3000 tramite ngrok
+
+    # papaleo_bot:
+    #   image: papaleo_bot
+    #   container: papaleo_bot
+    #   restart: unless-stopped
+    
+  # traefik e portainer ??
