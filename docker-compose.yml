@@ -1,6 +1,7 @@
 version: "3.7"
 
 services:
+  # versione di docker-compose ottenuta convertendo la versione del docker run in docker-compose.prova.yml col composerize (vedi su internet) 
   ngrok_composerize:
     image: ngrok/ngrok:3
     container_name: ngrok_composerize_container
@@ -9,5 +10,17 @@ services:
     environment:
       - NGROK_AUTHTOKEN=2lSp0hwPn8PrUnanVri6QoWFBLn_4GLB7BVdKX5rq7rDecfCV
     network_mode: host
+    # TODO: da capirci meglio per controllare la console di ngrok con docker logs: per ora possibile solo col docker run e senza docker
     stdin_open: true
     tty: true
+
+  papaleo-app:
+    image: papaleo-bot/1.0
+    build: .
+    container_name: papaleo_container
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    # volumes: ?
+
+# docker-compose up -d --build papaleo-app

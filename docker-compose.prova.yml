@@ -48,6 +48,8 @@ services:
     # stdin_open: true # docker run -i
     # tty: true        # docker run -t
 
+
+  ##### DOCKER RUN #####
   # Su Gnu/Linux hai --net=host, qui invece si usa host.docker.internal (per Windows e Mac OS)
 
   # (per Windows e Mac OS)
@@ -62,7 +64,11 @@ services:
 
   # (o --domain=<DOMAIN>)
 
+  ######################
+
+
     # NGROK docker-compose di chatgpt
+
     # ngrok_compose:
     #     image: ngrok/ngrok:latest
     #     container_name: ngrok_compose
