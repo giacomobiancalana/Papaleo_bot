@@ -32,6 +32,10 @@ async function init() {
   console.log("##########\nSetwebhook info:\n", setWebhookInfo.data, "\n##########");
   const getWebhookInfo = await axios.get(`${URL_TOKEN}/getwebhookinfo`);
   console.log("Getwebhookinfo for more information (pending updates for example):\n", getWebhookInfo.data, "\n##########");
+
+  // TODO: Cron jobs: 1) per provare ogni tot tempo il setWebHook se esso non va a buon fine, e 2) per mandare i messaggi che non è stato possibile inviare
+  // TODO: restart unless-stopped del container ngrok (creatop con docker run) da riprovare, in quanto quando il pc viene spento, non si restarta il
+  // container: è dovuto alla mancanza di pm2 nel container con ngrok?
 }
 
 app.listen(PORT, async () => {
