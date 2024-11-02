@@ -36,6 +36,8 @@ async function init() {
   // TODO: Cron jobs: 1) per provare ogni tot tempo il setWebHook se esso non va a buon fine, e 2) per mandare i messaggi che non è stato possibile inviare
   // TODO: restart unless-stopped del container ngrok (creatop con docker run) da riprovare, in quanto quando il pc viene spento, non si restarta il
   // container: è dovuto alla mancanza di pm2 nel container con ngrok?
+
+  // TODO: accesso da remoto a pc-fisso e portainer
 }
 
 app.listen(PORT, async () => {
