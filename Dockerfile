@@ -1,9 +1,8 @@
 FROM node:18.16.0-alpine as base
 
 RUN npm i -g npm@9.5.1
-RUN npm i -g typescript@5.6.3 pm2
-# TODO: rsync (da installare e vedi sito che ne parla (vedi preferiti su chrome)), pm2 (versione??), e
-# tsc-typescript (tsc è deprecato credo, ora c'è typescript sopltanto)
+RUN npm i -g typescript@5.6.3 pm2@5.4.2
+# TODO: rsync (da installare e vedi sito che ne parla (vedi preferiti su chrome))
 
 WORKDIR /app
 COPY ./tsconfig.json ./
@@ -15,7 +14,7 @@ RUN tsc
 
 #END BASE
 
-# TODO: i o il FROM ???
+# TODO: il o i FROM ???
 # 1 warning found (use docker --debug to expand):
 #  - FromAsCasing: 'as' and 'FROM' keywords' casing do not match (line 1)
 
