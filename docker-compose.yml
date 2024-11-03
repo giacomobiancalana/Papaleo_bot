@@ -1,5 +1,3 @@
-version: "3.7"
-
 services:
   # versione di docker-compose ottenuta convertendo la versione del docker run in docker-compose.prova.yml col composerize (vedi su internet) 
   ngrok_composerize:
@@ -10,9 +8,11 @@ services:
     environment:
       - NGROK_AUTHTOKEN=2lSp0hwPn8PrUnanVri6QoWFBLn_4GLB7BVdKX5rq7rDecfCV
     network_mode: host
-    # TODO: da capirci meglio per controllare la console di ngrok con docker logs: per ora possibile solo col docker run e senza docker
+    # TODO: da capirci meglio per controllare la console di ngrok con docker logs: per ora possibile solo col docker run e senza docker,
+    # o comunque si vede la console ma solo come immagine statica, non si aggiorna con le nuove request
     stdin_open: true
     tty: true
+    # TODO: forse serve pm2 (pm2-runtime) anche per ngrok?
 
   papaleo-app:
     image: papaleo-bot/1.0
