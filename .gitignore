@@ -3,3 +3,4 @@ node_modules/
 .env
 ngrok.yml
 .DS_Store
+docker-logs/

@@ -65,13 +65,18 @@ app.post('/webhook', async (req, res) => {
   // console.log("########## request body, date:", Date.parse(`${Date.now()}`), "##########");
   console.log(util.inspect(req.body, { depth: null, colors: true }));
  
-  const chatId = req.body.message.chat.id;
-  const text = req.body.message.text;
+  const messageObj = req.body.message;
+  if (!messageObj) {
+    console.error(`Il campo "message" non è presente nel body delle request.`);
+    return res.send();  //TODO: basta il return null per fermarsi? o return res.send()?
+  };
+  const chatId = messageObj.chat.id;
+  const text = messageObj.text;
 
   if (!text) {
     console.log("text is not defined");
     return res.send();  //TODO: gestire meglio questo caso
-  }
+  };
 
   if (text === '/epoidillo') {
     await axios.post(`${URL_TOKEN}/sendAnimation`, {
