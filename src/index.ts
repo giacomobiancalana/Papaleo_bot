@@ -38,6 +38,7 @@ async function init() {
   // container: è dovuto alla mancanza di pm2 nel container con ngrok?
 
   // TODO: accesso da remoto a pc-fisso e portainer
+  // TODO: quante richieste ti hanno fatto nell'ultimo giorno? cron job, e semmai ogni 10 min controlla, e se sono più di tot, manda mess telegram a te
 }
 
 app.listen(PORT, async () => {
@@ -65,9 +66,11 @@ app.post('/webhook', async (req, res) => {
   // console.log("########## request body, date:", Date.parse(`${Date.now()}`), "##########");
   console.log(util.inspect(req.body, { depth: null, colors: true }));
  
+  managingRequest();
+
   const messageObj = req.body.message;
   if (!messageObj) {
-    console.error(`Il campo "message" non è presente nel body delle request.`);
+    console.log(`##### Il campo "message" non è presente nel body della request. #####`);
     return res.send();  //TODO: basta il return null per fermarsi? o return res.send()?
   };
   const chatId = messageObj.chat.id;
@@ -115,7 +118,11 @@ app.post('/webhook', async (req, res) => {
 });
 
 //TODO: set commands con api telegram: non so se ci è utile
-//TODO: prendere server -> così non devo usare ngrok
+//TODO: prendere server -> così non devo usare ngrok -> DuckDNS o Cloudfare Tunnels
 //TODO: su container Docker? su AWS?
-//TODO: docker-compose per ngrok (e bot)
-//TODO: facciamolo senza pacchetti npm (per cloudfare workers). E poi proviamo con Wrangler CLI e pacchetti npm.
+
+function managingRequest() {
+  console.log("Gestisco la richiesta:");
+// TODO: come rispondi a /start?
+// TODO: gestisci rimozione da chat privata, vedi se continua a mandarti messaggi il webhook di telegram (come mai poi?)
+}
