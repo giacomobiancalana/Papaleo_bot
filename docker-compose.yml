@@ -23,4 +23,17 @@ services:
       - 3000:3000
     # volumes: ?
 
-# docker-compose up -d --build papaleo-app
+  portainer:
+    image: portainer/portainer-ce:2.27.0
+    container_name: portainer
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - 9443:9443
+      - 8000:8000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./volumes/portainer_data:/data
+
+    # docker run -d -p 9443:9443 -p 8000:8000 --name portainer --restart=unless-stopped -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:2.27.0
