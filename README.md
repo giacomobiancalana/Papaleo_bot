@@ -1,1 +1,1 @@
-Questo bot non è deployato, posso lanciare il codice da terminale con richieste pull, con getUpdates e non setWebhook.
+Questo bot è stato deployato (con setWebhook).
