@@ -1,4 +1,4 @@
-FROM node:18.16.0-alpine as base
+FROM node:18.16.0-alpine AS base
 
 RUN npm i -g npm@9.5.1
 RUN npm i -g typescript@5.6.3 pm2@5.4.2

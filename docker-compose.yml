@@ -3,17 +3,38 @@ services:
   ngrok_composerize:
     image: ngrok/ngrok:3
     container_name: ngrok_composerize_container
-    command: http --domain=porpoise-crisp-greatly.ngrok-free.app 3000
+    command:
+      - "http"
+      - "--url"
+      - "porpoise-crisp-greatly.ngrok-free.app"
+      - "3000"
     restart: unless-stopped
     environment:
       - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
-      # lo facciamo con volumes, importando il .env??
+      # ${NGROK_AUTHTOKEN} o $NGROK_AUTHTOKEN: basta che NGROK_AUTHTOKEN sia presente nel .env (prova
+      # "docker compose config", che tra le varie cose ti sostituisce tutte le variabili con i valori corrispondenti)
     network_mode: host
     # TODO: da capirci meglio per controllare la console di ngrok con docker logs: per ora possibile solo col docker run e senza docker,
     # o comunque si vede la console ma solo come immagine statica, non si aggiorna con le nuove request
-    stdin_open: true
-    tty: true
+    # stdin_open: true
+    # tty: true
     # TODO: forse serve pm2 (pm2-runtime) anche per ngrok?
+
+  ngrok_composerize_macos:
+    image: ngrok/ngrok:3
+    container_name: ngrok_composerize_macos_container
+    command:
+    - "http"
+    - "--url"
+    - "porpoise-crisp-greatly.ngrok-free.app"
+    - "host.docker.internal:3000"
+    restart: unless-stopped
+    environment:
+      - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
+    ports:
+      - 4040:4040
+    # stdin_open: true
+    # tty: true
 
   papaleo-app:
     image: papaleo-bot/1.0

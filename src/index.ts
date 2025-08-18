@@ -28,7 +28,7 @@ async function init() {
   //TODO: stampa dominio, porta, tutto, e altra roba che c'è anche sul .env ->
   //TODO: -> basterebbe fare env.ts e stampare quello come su Traffic-Monitoring
   const url = `${DOMAIN}/webhook`;
-  const setWebhookInfo = await axios.get(`${URL_TOKEN}/setwebhook?url=${url}&secret_token=${SECRET_TOKEN}`);
+  const setWebhookInfo = await axios.post(`${URL_TOKEN}/setwebhook?url=${url}&secret_token=${SECRET_TOKEN}`);
   console.log("##########\nSetwebhook info:\n", setWebhookInfo.data, "\n##########");
   const getWebhookInfo = await axios.get(`${URL_TOKEN}/getwebhookinfo`);
   console.log("Getwebhookinfo for more information (pending updates for example):\n", getWebhookInfo.data, "\n##########");
@@ -66,7 +66,8 @@ app.post('/webhook', async (req, res) => {
   // console.log("########## request body, date:", Date.parse(`${Date.now()}`), "##########");
   console.log(util.inspect(req.body, { depth: null, colors: true }));
  
-  managingRequest();
+  // TODO
+  // managingRequest();
 
   const messageObj = req.body.message;
   if (!messageObj) {
@@ -117,9 +118,8 @@ app.post('/webhook', async (req, res) => {
   return res.send();
 });
 
-//TODO: set commands con api telegram: non so se ci è utile
-//TODO: prendere server -> così non devo usare ngrok -> DuckDNS o Cloudfare Tunnels
-//TODO: su container Docker? su AWS?
+// TODO: set commands con api telegram: non so se ci è utile
+// TODO: come deployare? Ngrok, CloudFlare DDNS o Tunnels, o VPS (server) su AWS
 
 function managingRequest() {
   console.log("Gestisco la richiesta:");
