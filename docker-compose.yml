@@ -16,8 +16,6 @@ services:
     network_mode: host
     # TODO: da capirci meglio per controllare la console di ngrok con docker logs: per ora possibile solo col docker run e senza docker,
     # o comunque si vede la console ma solo come immagine statica, non si aggiorna con le nuove request
-    # stdin_open: true
-    # tty: true
     # TODO: forse serve pm2 (pm2-runtime) anche per ngrok?
 
   ngrok_composerize_macos:
@@ -33,8 +31,6 @@ services:
       - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
     ports:
       - 4040:4040
-    # stdin_open: true
-    # tty: true
 
   papaleo-app:
     image: papaleo-bot/1.0
