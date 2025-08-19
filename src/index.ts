@@ -4,6 +4,7 @@ dotenv.config()
 import axios from 'axios';
 import express from 'express';
 import * as util from 'util';
+import { tryCatch } from './utils';
 
 const TOKEN = process.env.TOKEN;
 const SECRET_TOKEN = process.env.SECRET_TOKEN;
@@ -27,8 +28,16 @@ async function init() {
   //TODO: sarebbe da togliere tutti i token da github (ma tanto son privati)
   //TODO: stampa dominio, porta, tutto, e altra roba che c'è anche sul .env ->
   //TODO: -> basterebbe fare env.ts e stampare quello come su Traffic-Monitoring
+  console.log("Inizio setwebhook");
+
   const url = `${DOMAIN}/webhook`;
   const setWebhookInfo = await axios.post(`${URL_TOKEN}/setwebhook?url=${url}&secret_token=${SECRET_TOKEN}`);
+  const setwebhookUrl = `${URL_TOKEN}/setwebhook?url=${DOMAIN}/webhook&secret_token=${SECRET_TOKEN}`;
+  const { data: setWebhookInfo, error } = await tryCatch(axios.post(setwebhookUrl));
+  if (error) {
+    console.error(`Non è stato possibile settare il webhook.`);
+    throw error;
+  }
   console.log("##########\nSetwebhook info:\n", setWebhookInfo.data, "\n##########");
   const getWebhookInfo = await axios.get(`${URL_TOKEN}/getwebhookinfo`);
   console.log("Getwebhookinfo for more information (pending updates for example):\n", getWebhookInfo.data, "\n##########");
@@ -52,7 +61,7 @@ app.post('/webhook', async (req, res) => {
   // Come scritto in 'https://core.telegram.org/bots/api#setwebhook':
   // "If you'd like to make sure that the webhook was set by you, you can specify secret data in the parameter secret_token.
   // If specified, the request will contain a header “X-Telegram-Bot-Api-Secret-Token” with the secret token as content."
-  // Altra soluzione: aggiungere il token nell'endpoint (/webhook/<TOKEN>), per renderlo unico.
+  // Altra soluzione: aggiungere il token del bot nell'endpoint (/webhook/<TOKEN>), per renderlo unico.
 
   if (SECRET_TOKEN !== secret_token_from_headers) {
     //TODO: basta il return null per fermarsi? o return res.send()? e se qualcun altro fa la chiamata, il return null impedisce
