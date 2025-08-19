@@ -1,0 +1,1 @@
+- servono devcontainer o sviluppo docker che ricompila il codice dentro container ogni volta che lo cambi in locale

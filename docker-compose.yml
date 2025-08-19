@@ -32,7 +32,7 @@ services:
     ports:
       - 4040:4040
 
-  papaleo-app:
+  papaleo_app:
     image: papaleo-bot/1.0
     build: .
     container_name: papaleo_container
