@@ -15,8 +15,6 @@ RUN tsc
 #END BASE
 
 # TODO: il o i FROM ???
-# 1 warning found (use docker --debug to expand):
-#  - FromAsCasing: 'as' and 'FROM' keywords' casing do not match (line 1)
 
 # ENTRYPOINT ["sh", "docker-entrypoint.sh"]
 
