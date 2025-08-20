@@ -1,1 +1,4 @@
+- rsync, vedi altra app (ngproj??)
 - servono devcontainer o sviluppo docker che ricompila il codice dentro container ogni volta che lo cambi in locale
+- usa nuovo sito cloudflare?? ma serve container cloudflare ddns penso
+- i due eseguibili sono diversi solo per qualche lettera, non è possibile tenere solo un eseguibile e semmai, se si hanno degli input all'eseguibile, si potrebbe far partire un container invece che un altro?

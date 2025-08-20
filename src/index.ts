@@ -25,13 +25,10 @@ async function init() {
   if (!TOKEN) {
     throw new Error('No bot TOKEN is provided.');
   };
-  //TODO: sarebbe da togliere tutti i token da github (ma tanto son privati)
   //TODO: stampa dominio, porta, tutto, e altra roba che c'è anche sul .env ->
   //TODO: -> basterebbe fare env.ts e stampare quello come su Traffic-Monitoring
-  console.log("Inizio setwebhook");
+  console.log("##### Inizio setwebhook #####");
 
-  const url = `${DOMAIN}/webhook`;
-  const setWebhookInfo = await axios.post(`${URL_TOKEN}/setwebhook?url=${url}&secret_token=${SECRET_TOKEN}`);
   const setwebhookUrl = `${URL_TOKEN}/setwebhook?url=${DOMAIN}/webhook&secret_token=${SECRET_TOKEN}`;
   const { data: setWebhookInfo, error } = await tryCatch(axios.post(setwebhookUrl));
   if (error) {
@@ -41,6 +38,7 @@ async function init() {
   console.log("##########\nSetwebhook info:\n", setWebhookInfo.data, "\n##########");
   const getWebhookInfo = await axios.get(`${URL_TOKEN}/getwebhookinfo`);
   console.log("Getwebhookinfo for more information (pending updates for example):\n", getWebhookInfo.data, "\n##########");
+  // TODO: gestisci i TODO -> o sennò li metti su todo.txt, qui toglili!!!
 
   // TODO: Cron jobs: 1) per provare ogni tot tempo il setWebHook se esso non va a buon fine, e 2) per mandare i messaggi che non è stato possibile inviare
   // TODO: restart unless-stopped del container ngrok (creatop con docker run) da riprovare, in quanto quando il pc viene spento, non si restarta il
