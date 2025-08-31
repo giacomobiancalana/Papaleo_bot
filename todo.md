@@ -9,4 +9,4 @@
 - app.use(express.json());
 - throw dell'errore anche quando non c'è secret_token, e forse anche gli altri parametri (subito dopo init())
 - All'inizio: stampa tutto -> dominio, porta, tutto, e altra roba che c'è anche sul .env (basterebbe fare env.ts e stampare quello come su Traffic-Monitoring)
- 
+- //TODO: e se impostassi il codice come classe??

@@ -19,8 +19,6 @@ const SGUARDI_FILE_ID = process.env.SGUARDI_FILE_ID;
 const app = express();
 app.use(express.json());
 
-//TODO: e se impostassi il codice come classe??
-
 async function init() {
   if (!TELEGRAM_AUTH_TOKEN) {
     throw new Error('The Telegram Bot auth token is not provided.');
