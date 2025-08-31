@@ -6,32 +6,31 @@ import express from 'express';
 import * as util from 'util';
 import { tryCatch } from './utils';
 
-const TOKEN = process.env.TOKEN;
+const TELEGRAM_AUTH_TOKEN = process.env.TELEGRAM_AUTH_TOKEN;
 const SECRET_TOKEN = process.env.SECRET_TOKEN;
 const DOMAIN = process.env.DOMAIN;
 const PORT: number = parseInt(process.env.PORT) || 3000;
 const URL = "https://api.telegram.org/bot";
-const URL_TOKEN = `${URL}${TOKEN}`;
+const URL_TOKEN = `${URL}${TELEGRAM_AUTH_TOKEN}`;
 const EPOIDILLO_FILE_ID = process.env.EPOIDILLO_FILE_ID;
 const SGUARDI_FILE_ID = process.env.SGUARDI_FILE_ID;
 // const ASSETS_URL = `https://ilsitodiyoda2.altervista.org/assets/papaleo-gif`;
 
 const app = express();
-app.use(express.json());  //TODO: da capire
+app.use(express.json());
 
 //TODO: e se impostassi il codice come classe??
 
 async function init() {
-  if (!TOKEN) {
-    throw new Error('No bot TOKEN is provided.');
+  if (!TELEGRAM_AUTH_TOKEN) {
+    throw new Error('The Telegram Bot auth token is not provided.');
   };
-  //TODO: stampa dominio, porta, tutto, e altra roba che c'è anche sul .env ->
-  //TODO: -> basterebbe fare env.ts e stampare quello come su Traffic-Monitoring
   console.log("##### Inizio setwebhook #####");
 
   const setwebhookUrl = `${URL_TOKEN}/setwebhook?url=${DOMAIN}/webhook&secret_token=${SECRET_TOKEN}`;
   const { data: setWebhookInfo, error } = await tryCatch(axios.post(setwebhookUrl));
   if (error) {
+    // TODO: gestire errori axios, vedi codice ohm, con request, code e cause
     console.error(`Non è stato possibile settare il webhook.`);
     throw error;
   }
@@ -59,7 +58,7 @@ app.post('/webhook', async (req, res) => {
   // Come scritto in 'https://core.telegram.org/bots/api#setwebhook':
   // "If you'd like to make sure that the webhook was set by you, you can specify secret data in the parameter secret_token.
   // If specified, the request will contain a header “X-Telegram-Bot-Api-Secret-Token” with the secret token as content."
-  // Altra soluzione: aggiungere il token del bot nell'endpoint (/webhook/<TOKEN>), per renderlo unico.
+  // Altra soluzione: aggiungere il token del bot nell'endpoint (/webhook/<TELEGRAM_AUTH_TOKEN>), per renderlo unico.
 
   if (SECRET_TOKEN !== secret_token_from_headers) {
     //TODO: basta il return null per fermarsi? o return res.send()? e se qualcun altro fa la chiamata, il return null impedisce
