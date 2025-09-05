@@ -1,6 +1,6 @@
 #!/bin/bash
-docker run -rm -it -w /app -v $(pwd):/app node:18.16.0-alpine npm ci
-docker run -rm -it -w /app -v $(pwd):/app node:18.16.0-alpine npx tsc
+docker run --rm -it -w /app -v $(pwd):/app node:18.16.0-alpine npm ci
+docker run --rm -it -w /app -v $(pwd):/app node:18.16.0-alpine npx tsc
 # se non funzionano, metti la parte di "-w ..." dopo la parte di "-v ..."
 
 # vedi questo video short (vedi anche il file di comandi verso la fine):
