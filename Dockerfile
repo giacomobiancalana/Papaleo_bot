@@ -19,6 +19,3 @@ RUN tsc
 # ENTRYPOINT ["sh", "docker-entrypoint.sh"]
 
 CMD ["pm2-runtime", "/app/dist/index.js"]
-
-# DOCKER RUN COL DOCKER BUILD
-# docker build --tag prova-papaleo . && docker run -d --name papaleo-container -p 3000:3000 prova-papaleo

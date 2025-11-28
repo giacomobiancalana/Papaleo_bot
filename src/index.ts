@@ -1,5 +1,5 @@
 import * as dotenv from 'dotenv';
-dotenv.config()
+dotenv.config();
 
 import axios from 'axios';
 import express from 'express';
@@ -26,6 +26,10 @@ async function init() {
   console.log("##### Inizio setwebhook #####");
 
   const setwebhookUrl = `${URL_TOKEN}/setwebhook?url=${DOMAIN}/webhook&secret_token=${SECRET_TOKEN}`;
+  // Come scritto in 'https://core.telegram.org/bots/api#setwebhook' (Telegram Bots API documentation):
+  // "If you'd like to make sure that the webhook was set by you, you can specify secret data in the parameter secret_token.
+  // If specified, the request will contain a header “X-Telegram-Bot-Api-Secret-Token” with the secret token as content."
+  // Altra soluzione: aggiungere il token del bot nell'endpoint (/webhook/<TELEGRAM_AUTH_TOKEN>), per renderlo unico.
   const { data: setWebhookInfo, error } = await tryCatch(axios.post(setwebhookUrl));
   if (error) {
     // TODO: gestire errori axios, vedi codice ohm, con request, code e cause
@@ -38,10 +42,9 @@ async function init() {
   // TODO: gestisci i TODO -> o sennò li metti su todo.txt, qui toglili!!!
 
   // TODO: Cron jobs: 1) per provare ogni tot tempo il setWebHook se esso non va a buon fine, e 2) per mandare i messaggi che non è stato possibile inviare
-  // TODO: restart unless-stopped del container ngrok (creatop con docker run) da riprovare, in quanto quando il pc viene spento, non si restarta il
+  // TODO: restart unless-stopped del container ngrok (creato con docker run) da riprovare, in quanto quando il pc viene spento, non si restarta il
   // container: è dovuto alla mancanza di pm2 nel container con ngrok?
 
-  // TODO: accesso da remoto a pc-fisso e portainer
   // TODO: quante richieste ti hanno fatto nell'ultimo giorno? cron job, e semmai ogni 10 min controlla, e se sono più di tot, manda mess telegram a te
 }
 
@@ -52,24 +55,20 @@ app.listen(PORT, async () => {
 
 app.post('/webhook', async (req, res) => {
   //TODO: sarebbe da provare a fare una chiamata con postman o curl o da browser (senza secret_token però) per vedere se funziona
-  const secret_token_from_headers = req.headers['x-telegram-bot-api-secret-token']
-  // Come scritto in 'https://core.telegram.org/bots/api#setwebhook':
-  // "If you'd like to make sure that the webhook was set by you, you can specify secret data in the parameter secret_token.
-  // If specified, the request will contain a header “X-Telegram-Bot-Api-Secret-Token” with the secret token as content."
-  // Altra soluzione: aggiungere il token del bot nell'endpoint (/webhook/<TELEGRAM_AUTH_TOKEN>), per renderlo unico.
+  const secret_token_from_headers = req.headers['x-telegram-bot-api-secret-token'];
 
   if (SECRET_TOKEN !== secret_token_from_headers) {
     //TODO: basta il return null per fermarsi? o return res.send()? e se qualcun altro fa la chiamata, il return null impedisce
     // il funzionamento dell'app anche per gli altri? forse serve il return res.send() allora.
     console.error("The secret_token in the headers of the request is not correct.");
-    return null;
+    return res.send();
   }
 
   console.log("########## request body, date:", new Date().toLocaleString("it-IT", { timeZone: 'Europe/Rome' }), "##########");  // req.headers per gli headers
   //TODO: come si può avere una data senza istanziare un oggetto data, partendo da Date.now() ?
   // console.log("########## request body, date:", Date.parse(`${Date.now()}`), "##########");
   console.log(util.inspect(req.body, { depth: null, colors: true }));
- 
+
   // TODO
   // managingRequest();
 
@@ -123,7 +122,6 @@ app.post('/webhook', async (req, res) => {
 });
 
 // TODO: set commands con api telegram: non so se ci è utile
-// TODO: come deployare? Ngrok, CloudFlare DDNS o Tunnels, o VPS (server) su AWS
 
 function managingRequest() {
   console.log("Gestisco la richiesta:");
