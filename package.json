@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "mainTypescript": "index.ts",
   "scripts": {
     "dev": "nodemon --watch './**/*.ts' --exec 'ts-node' src/index.ts",
     "ngrok:docker:rm": "docker stop ngrok_runner && docker rm ngrok_runner && npm run ngrok:docker",
